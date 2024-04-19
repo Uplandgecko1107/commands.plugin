@@ -1,0 +1,15 @@
+name: essentials command
+version: '${project.version}'
+main: commands.untitled.Untitled
+commands:
+  fly:
+    description: Toggles flying for the command
+    usage: /fly
+    aliases: f
+    permission: fly
+    permission-message: you do not have high enough rank to use this command
+
+  heal:
+   description:  heals the player
+   usage: /heal
+   aliases: h
