@@ -8,8 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
 public class WarpCommand implements CommandExecutor {
     private final FileConfiguration config;
 
@@ -38,7 +41,13 @@ public class WarpCommand implements CommandExecutor {
                 return true;
             }
 
-            List<Double> locationData = config.getDoubleList("warps." + warpName);
+            String warpPermission = config.getString("warps." + warpName + ".permission");
+            if (warpPermission != null && !player.hasPermission(warpPermission)) {
+                player.sendMessage(ChatColor.RED + "You do not have permission to use the '" + warpName + "' warp.");
+                return true;
+            }
+
+            List<Double> locationData = config.getDoubleList("warps." + warpName + ".location");
             Location warpLocation = new Location(player.getWorld(), locationData.get(0), locationData.get(1), locationData.get(2));
             player.teleport(warpLocation);
             player.sendMessage(ChatColor.GREEN + "Teleported to warp '" + warpName + "'.");
@@ -51,19 +60,29 @@ public class WarpCommand implements CommandExecutor {
 
             Player player = (Player) sender;
 
-            if (!player.hasPermission("clirzcore.warp")) {
+            if (!player.hasPermission("yourplugin.setwarp")) {
                 player.sendMessage(ChatColor.RED + "You do not have permission to create warps.");
                 return true;
             }
 
             if (args.length < 1) {
-                player.sendMessage(ChatColor.RED + "Usage: /setwarp <warp>");
+                player.sendMessage(ChatColor.RED + "Usage: /setwarp <warp> [permission]");
                 return true;
             }
 
             String warpName = args[0].toLowerCase();
             Location warpLocation = player.getLocation();
-            config.set("warps." + warpName, warpLocation);
+
+            String warpPermission = null;
+            if (args.length > 1) {
+                warpPermission = args[1];
+            }
+
+            config.set("warps." + warpName + ".location", Arrays.asList(warpLocation.getX(), warpLocation.getY(), warpLocation.getZ()));
+            if (warpPermission != null) {
+                config.set("warps." + warpName + ".permission", warpPermission);
+            }
+
             player.sendMessage(ChatColor.GREEN + "Warp '" + warpName + "' created successfully.");
             return true;
         } else if (command.getName().equalsIgnoreCase("deletewarp") || command.getName().equalsIgnoreCase("delwarp")) {
@@ -109,13 +128,17 @@ public class WarpCommand implements CommandExecutor {
 
             player.sendMessage(ChatColor.GREEN + "Available warps:");
             for (String warpName : warpNames) {
-                player.sendMessage("- " + warpName);
+                String warpPermission = config.getString("warps." + warpName + ".permission");
+                if (warpPermission != null) {
+                    player.sendMessage("- " + warpName + " (Permission: " + warpPermission + ")");
+                } else {
+                    player.sendMessage("- " + warpName);
+                }
             }
 
             return true;
         }
 
         return false;
-
     }
 }
