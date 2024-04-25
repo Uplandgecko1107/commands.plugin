@@ -37,7 +37,7 @@ getCommand("kit").setExecutor(new KitsCommand(config));
 getCommand("createkit").setExecutor(new KitsCommand(config));
 getCommand("deletekit").setExecutor(new KitsCommand(config));
 getCommand("kits").setExecutor(new KitsCommand(config));
-        getCommand("tpall").setExecutor(new TeleportAllCommand());
+getCommand("tpall").setExecutor(new TeleportAllCommand());
     }
 
     @Override
