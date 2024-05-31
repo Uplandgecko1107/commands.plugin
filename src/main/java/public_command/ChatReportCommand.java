@@ -25,7 +25,7 @@ public class ChatReportCommand implements CommandExecutor {
 
             Player player = (Player) sender;
 
-            if (!player.hasPermission("yourplugin.chatreport")) {
+            if (!player.hasPermission("ClizCore.chatreport")) {
                 player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
                 return true;
             }
