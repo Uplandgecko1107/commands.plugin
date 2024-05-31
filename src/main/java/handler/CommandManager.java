@@ -1,10 +1,10 @@
 package handler;
 
+import commands.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import public_command.ChatReportCommand;
 
-import commands.*;
-import public_command.*;
 
 import java.io.File;
 
@@ -43,15 +43,15 @@ public class CommandManager {
         plugin.getCommand("invsee").setExecutor(new InventorySeeCommand());
         plugin.getCommand("teleport").setExecutor(new TeleportCommand());
         plugin.getCommand("tp").setExecutor(new TeleportCommand());
-        plugin.getCommand("warp").setExecutor(new WarpCommand(config));
-        plugin.getCommand("setwarp").setExecutor(new WarpCommand(config));
-        plugin.getCommand("deletewarp").setExecutor(new WarpCommand(config));
-        plugin.getCommand("delwarp").setExecutor(new WarpCommand(config));
-        plugin.getCommand("warps").setExecutor(new WarpCommand(config));
-        plugin.getCommand("kit").setExecutor(new KitsCommand(config));
-        plugin.getCommand("createkit").setExecutor(new KitsCommand(config));
-        plugin.getCommand("deletekit").setExecutor(new KitsCommand(config));
-        plugin.getCommand("kits").setExecutor(new KitsCommand(config));
+        plugin.getCommand("warp").setExecutor(new WarpCommand(plugin));
+        plugin.getCommand("setwarp").setExecutor(new WarpCommand(plugin));
+        plugin.getCommand("deletewarp").setExecutor(new WarpCommand(plugin));
+        plugin.getCommand("delwarp").setExecutor(new WarpCommand(plugin));
+        plugin.getCommand("warps").setExecutor(new WarpCommand(plugin));
+        plugin.getCommand("kit").setExecutor(new KitsCommand(plugin));
+        plugin.getCommand("createkit").setExecutor(new KitsCommand(plugin));
+        plugin.getCommand("deletekit").setExecutor(new KitsCommand(plugin));
+        plugin.getCommand("kits").setExecutor(new KitsCommand(plugin));
         plugin.getCommand("tpall").setExecutor(new TeleportAllCommand());
         plugin.getCommand("playtime").setExecutor(new PlaytimeCommand(plugin.getDataFolder()));
         plugin.getCommand("chatreport").setExecutor(new ChatReportCommand());
